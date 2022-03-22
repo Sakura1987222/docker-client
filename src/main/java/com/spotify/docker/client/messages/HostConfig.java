@@ -252,6 +252,10 @@ public abstract class HostConfig {
   @JsonProperty("Runtime")
   public abstract String runtime();
 
+  @Nullable
+  @JsonProperty("DeviceRequests")
+  public abstract ImmutableList<DeviceRequest> deviceRequests();
+
 
   @JsonCreator
   static HostConfig create(
@@ -304,7 +308,8 @@ public abstract class HostConfig {
       @JsonProperty("Tmpfs") final Map<String, String> tmpfs,
       @JsonProperty("ReadonlyRootfs") final Boolean readonlyRootfs,
       @JsonProperty("Runtime") final String runtime,
-      @JsonProperty("StorageOpt") final Map<String, String> storageOpt) {
+      @JsonProperty("StorageOpt") final Map<String, String> storageOpt,
+      @JsonProperty("DeviceRequests") List<DeviceRequest> deviceRequests) {
     return builder()
         .binds(binds)
         .blkioWeight(blkioWeight)
@@ -356,6 +361,7 @@ public abstract class HostConfig {
         .readonlyRootfs(readonlyRootfs)
         .storageOpt(storageOpt)
         .runtime(runtime)
+        .deviceRequests(deviceRequests)
         .build();
   }
 
@@ -662,6 +668,10 @@ public abstract class HostConfig {
     public abstract Builder storageOpt(Map<String, String> tmpfs);
 
     public abstract Builder runtime(String runtime);
+
+    public abstract Builder deviceRequests(List<DeviceRequest> deviceRequests);
+
+    public abstract Builder deviceRequests(DeviceRequest... deviceRequests);
 
     // Validation of property values using AutoValue requires we split the build method into two.
     // AutoValue implements this package-private method.
